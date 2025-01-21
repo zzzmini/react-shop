@@ -9,6 +9,7 @@ import Product from "./component/Product";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import DetailPage from "./pages/DetailPage";
 import AboutPage from "./pages/AboutPage";
+import MainPage from "./pages/MainPage";
 
 function App() {
   const [product, setProduct] = useState(data);
@@ -48,7 +49,7 @@ function App() {
 
       {/* 라우터 처리 */}
       <Routes>
-        <Route path="/" element={<div>메인페이지</div>} />
+        <Route path="/main" element={<div><MainPage product={product}/></div>} />
         <Route index element={<div>홈.....</div>} />
         <Route path="/detail/:id" element={
           <div>
@@ -73,16 +74,16 @@ function App() {
       </Routes>
 
       <Container>
-        <Row className="justify-content-md-center">
-          {product.map((p, index) => {
-            return (
-              <Col>
-                <Product product={product} index={index} />
-              </Col>
-            );
-          })}
-        </Row>
-      </Container>
+      <Row className="justify-content-md-center">
+        {product.map((p, index) => {
+          return (
+            <Col>
+              <Product product={product} index={index} />
+            </Col>
+          );
+        })}
+      </Row>
+    </Container>
     </div>
   );
 }

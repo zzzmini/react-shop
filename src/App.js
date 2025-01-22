@@ -10,6 +10,8 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import DetailPage from "./pages/DetailPage";
 import AboutPage from "./pages/AboutPage";
 import MainPage from "./pages/MainPage";
+import CartPage from "./pages/CartPage"
+import axios from "axios";
 
 function App() {
   const [product, setProduct] = useState(data);
@@ -56,7 +58,11 @@ function App() {
             <DetailPage product={product} />
           </div>} 
           />
-        <Route path="/cart" element={<div>장바구니페이지</div>} />
+        <Route path="/cart" element={
+          <div>
+            <CartPage />
+          </div>} 
+        />
         <Route path="/about" element={<div><AboutPage/></div>}>
           <Route path="member" element={<div>직원소개 페이지</div>}></Route>
           <Route path="location" element={<div>길안내 페이지</div>}></Route>
@@ -83,6 +89,21 @@ function App() {
           );
         })}
       </Row>
+      <button onClick={()=>{
+        axios
+          .get('https://zzzmini.github.io/js/react_data_02.json')
+          .then((result)=>{
+            // 요청 성공시 처리할 곳
+            console.log(result.data)
+            let temp = [... product, ...result.data];
+            console.log(temp)
+            setProduct([... temp]);
+          })
+          .catch(()=>{
+            // 요청 실패시 처리할 곳
+            console.log("실패함.")
+          });
+      }}>데이터 가져오기</button>
     </Container>
     </div>
   );

@@ -1,26 +1,51 @@
-import { useEffect, useState } from "react";
+import Table from "react-bootstrap/Table";
+import { useSelector } from 'react-redux';
 
-function CartPage(){
-  // 버튼 하나 만들고 누를 때 마다 1씩 증가된 값이 화면에 보이도록
-  // 처리.
-  // useState 이용
-  let [count, setCount] = useState(0);
-  useEffect(()=>{
-    // for(let i=0; i<10000; i++){
-    //   console.log(i);
-    // }
-    console.log('안녕 난 useEffect Mounted!')
-  });
+function CartPage() {
+  let userName = useSelector((state)=>{
+    return state.userName;
+  })
+
+  let productStock = useSelector((state)=>{
+    return state.productStock;
+  })
+
+  let cartData = useSelector((state)=>{
+    return state.cartData;
+  })
+
+  console.log(userName);
+  console.log(productStock);
+  console.log(cartData)
 
   return (
     <div>
-      <h3>Cart Page</h3>
-      <button onClick={()=>{
-        setCount(count+1)
-      }}>버튼</button>
-      <p>{count}</p>
+      <Table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>상품명</th>
+            <th>수량</th>
+            <th>변경하기</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>{productStock[0]}</td>
+            <td>단추</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Nike</td>
+            <td>{productStock[1]}</td>
+            <td>단추</td>
+          </tr>
+        </tbody>
+      </Table>
     </div>
-  )
+  );
 }
 
 export default CartPage;

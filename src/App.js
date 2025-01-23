@@ -2,16 +2,13 @@ import "./App.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Row, Col } from "react-bootstrap";
 import data from "./data/shoes-data";
 import { useState } from "react";
-import Product from "./component/Product";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import DetailPage from "./pages/DetailPage";
 import AboutPage from "./pages/AboutPage";
 import MainPage from "./pages/MainPage";
 import CartPage from "./pages/CartPage"
-import axios from "axios";
 
 function App() {
   const [product, setProduct] = useState(data);
@@ -51,8 +48,9 @@ function App() {
 
       {/* 라우터 처리 */}
       <Routes>
-        <Route path="/main" element={<div><MainPage product={product}/></div>} />
-        <Route index element={<div>홈.....</div>} />
+        <Route path="/main" 
+        element={<div><MainPage product={product}/></div>} />
+        <Route index element={<div><MainPage product={product}/></div>}  />
         <Route path="/detail/:id" element={
           <div>
             <DetailPage product={product} />
@@ -78,33 +76,6 @@ function App() {
           </div>
         } />
       </Routes>
-
-      <Container>
-      <Row className="justify-content-md-center">
-        {product.map((p, index) => {
-          return (
-            <Col>
-              <Product product={product} index={index} />
-            </Col>
-          );
-        })}
-      </Row>
-      <button onClick={()=>{
-        axios
-          .get('https://zzzmini.github.io/js/react_data_02.json')
-          .then((result)=>{
-            // 요청 성공시 처리할 곳
-            console.log(result.data)
-            let temp = [... product, ...result.data];
-            console.log(temp)
-            setProduct([... temp]);
-          })
-          .catch(()=>{
-            // 요청 실패시 처리할 곳
-            console.log("실패함.")
-          });
-      }}>데이터 가져오기</button>
-    </Container>
     </div>
   );
 }

@@ -58,7 +58,7 @@ function Detail(props) {
     
     let i = parseInt(id) + 1;
     
-
+    
     let searchArr = [];
     detail.forEach((x)=>{
       if(x.productId == i){

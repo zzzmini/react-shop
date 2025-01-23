@@ -1,6 +1,6 @@
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { changeUserName } from "../../store";
+import { plusCount, minusCount } from '../../store';
 
 function CartPage() {
   let userName = useSelector((state) => {
@@ -24,11 +24,26 @@ function CartPage() {
   let loggindUser = useSelector((state) => {
     return state.loggindUser;
   });
-  console.log('userName = ' ,loggindUser);
+  console.log('Loggind userName = ' ,loggindUser);
 
+  let imsiData = useSelector((state)=>{
+    return state.imsiData;
+  })
+
+  console.log(imsiData)
   return (
     <div>
-      {loggindUser}<button>유저이름변경 실행</button>
+      {/* {loggindUser}<button onClick={()=>{
+        dispatcher(changeUserName());
+      }}>이름실행</button>
+      {imsiData.groupName} : {imsiData.name}
+      <button onClick={()=>{
+        dispatcher(changeGroup());
+      }}>소속사</button>
+      <span onClick={()=>{
+        dispatcher(addAge(3));
+      }}>➕</span>{imsiData.age} */}
+      <p>{loggindUser}님</p>
       <Table>
         <thead>
           <tr>
@@ -44,7 +59,15 @@ function CartPage() {
               <tr key={x.id}>
                 <td>{x.id}</td>
                 <td>{x.title}</td>
-                <td>{x.count}</td>
+                <td>
+                  {x.count} &nbsp;
+                  <span onClick={()=>{
+                    dispatcher(plusCount(x.id))
+                  }}>➕</span>
+                  <span onClick={()=>{
+                    dispatcher(minusCount(x.id))
+                  }}>➖</span>
+                </td>
                 <td>단추</td>
               </tr>
             );

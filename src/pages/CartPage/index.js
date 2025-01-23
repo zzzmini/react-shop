@@ -1,22 +1,22 @@
 import Table from "react-bootstrap/Table";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 function CartPage() {
-  let userName = useSelector((state)=>{
+  let userName = useSelector((state) => {
     return state.userName;
-  })
+  });
 
-  let productStock = useSelector((state)=>{
+  let productStock = useSelector((state) => {
     return state.productStock;
-  })
+  });
 
-  let cartData = useSelector((state)=>{
+  let cartData = useSelector((state) => {
     return state.cartData;
-  })
+  });
 
   console.log(userName);
   console.log(productStock);
-  console.log(cartData)
+  console.log(cartData);
 
   return (
     <div>
@@ -30,18 +30,16 @@ function CartPage() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>{productStock[0]}</td>
-            <td>단추</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Nike</td>
-            <td>{productStock[1]}</td>
-            <td>단추</td>
-          </tr>
+          {cartData.map((x) => {
+            return (
+              <tr key={x.id}>
+                <td>{x.id}</td>
+                <td>{x.title}</td>
+                <td>{x.count}</td>
+                <td>단추</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </div>

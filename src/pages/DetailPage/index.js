@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import axios from "axios";
+import { Row, Col } from "react-bootstrap";
+import Product from "../../component/Product"
 
 function Detail(props) {
   let [alert, setAlert] = useState(true);
@@ -152,6 +154,15 @@ function Detail(props) {
             </Tab>
           </Tabs>
         </div>
+        {/* <Row className="justify-content-md-center">
+          {props.product.map((p, index) => {
+            return (
+              <Col>
+                <Product product={product} index={index} />
+              </Col>
+            );
+        })}
+        </Row> */}
       </div>
     );
   }

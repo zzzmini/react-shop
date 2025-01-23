@@ -20,11 +20,25 @@ let cartData = createSlice({
   ]
 })
 
+let loggindUser = createSlice({
+  name : 'loggindUser',
+  initialState : 'zzzmini',
+  // 수정
+  reducers : {
+    // state : 원래의 데이터를 의미(zzzmini)
+    changeUserName(state){
+      return state + '님'
+    }
+  }
+})
 
 export default configureStore({
   reducer : {
     userName : userName.reducer,
     productStock : productStock.reducer,
     cartData : cartData.reducer,
+    loggindUser : loggindUser.reducer,
   }
 })
+
+export let { changeUserName } = loggindUser.actions;

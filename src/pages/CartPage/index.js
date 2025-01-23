@@ -1,5 +1,6 @@
 import Table from "react-bootstrap/Table";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { changeUserName } from "../../store";
 
 function CartPage() {
   let userName = useSelector((state) => {
@@ -18,8 +19,16 @@ function CartPage() {
   console.log(productStock);
   console.log(cartData);
 
+  // 스토어에 있는 변경함수 호출하는 택배기사를 생성
+  let dispatcher = useDispatch();
+  let loggindUser = useSelector((state) => {
+    return state.loggindUser;
+  });
+  console.log('userName = ' ,loggindUser);
+
   return (
     <div>
+      {loggindUser}<button>유저이름변경 실행</button>
       <Table>
         <thead>
           <tr>

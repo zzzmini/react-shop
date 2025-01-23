@@ -48,9 +48,15 @@ function CartPage() {
         <thead>
           <tr>
             <th>#</th>
-            <th>상품명</th>
+            <th>
+              상품명
+              <span>▲</span>
+              <span>▼</span>
+            </th>
+            <th>단가</th>
+            <th>금액</th>
             <th>수량</th>
-            <th>변경하기</th>
+            <th>삭제</th>
           </tr>
         </thead>
         <tbody>
@@ -59,6 +65,8 @@ function CartPage() {
               <tr key={x.id}>
                 <td>{x.id}</td>
                 <td>{x.title}</td>
+                <td>단가얼마</td>
+                <td>금액얼마</td>
                 <td>
                   {x.count} &nbsp;
                   <span onClick={()=>{
@@ -68,10 +76,15 @@ function CartPage() {
                     dispatcher(minusCount(x.id))
                   }}>➖</span>
                 </td>
-                <td>단추</td>
+                
+                <td>❌</td>
               </tr>
             );
           })}
+          <tr>
+            <td colSpan={4}>총 금액</td>
+            <td colSpan={2}> 1,200,000 원</td>
+          </tr>
         </tbody>
       </Table>
     </div>

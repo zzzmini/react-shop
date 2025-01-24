@@ -3,16 +3,27 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import data from "./data/shoes-data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import DetailPage from "./pages/DetailPage";
 import AboutPage from "./pages/AboutPage";
 import MainPage from "./pages/MainPage";
 import CartPage from "./pages/CartPage";
+import RecentPage from "./pages/RecentPage";
 
 function App() {
+  // localStorage에 초기설정
+  // useEffect(()=>{
+  //   localStorage.setItem('recent', JSON.stringify([]));
+  // }, [])
+
   const [product, setProduct] = useState(data);
   let navigate = useNavigate();
+
+  let outData = localStorage.getItem('data');
+  console.log(JSON.parse(outData))
+  
+  localStorage.setItem('data', JSON.stringify(product))
 
   return (
     <div className="App">
@@ -27,6 +38,14 @@ function App() {
             >
               {/* <Link to={"/"}>Home</Link> */}
               Home
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/recent");
+              }}
+            >
+              {/* <Link to={"/"}>Home</Link> */}
+              최근본 상품
             </Nav.Link>
             <Nav.Link
               onClick={() => {
@@ -68,7 +87,14 @@ function App() {
         <Route path="/main" element={<MainPage product={product} />}>
           <Route path=":id" element={<DetailPage product={product} />}/>
         </Route>
-        
+        <Route
+          path="/recent"
+          element={
+            <div>
+              <RecentPage />
+            </div>
+          }
+        />
         <Route
           path="/cart"
           element={

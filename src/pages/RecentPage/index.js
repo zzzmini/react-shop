@@ -17,7 +17,7 @@ function RecentPage() {
     setRecentView([...recent.sort()]);
   }, []);
 
-  console.log("product : " + product[0].title);
+  console.log("recentView : " + recentView);
   return (
     <div>
       <h4>최근본 상품리스트</h4>

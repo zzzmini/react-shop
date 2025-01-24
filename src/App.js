@@ -45,7 +45,7 @@ function App() {
               }}
             >
               {/* <Link to={"/"}>Home</Link> */}
-              최근본 상품
+              Recent
             </Nav.Link>
             <Nav.Link
               onClick={() => {
@@ -63,6 +63,10 @@ function App() {
               {/* <Link to={"/cart"}>Cart</Link> */}
               About
             </Nav.Link>
+          </Nav>
+          <Nav>
+            <Nav.Link href="#deets">LogIn</Nav.Link>
+            <Nav.Link href="#memes">SignUp</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

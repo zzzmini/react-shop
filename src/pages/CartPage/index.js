@@ -1,6 +1,6 @@
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { plusCount, minusCount } from '../../store';
+import { plusCount, minusCount, deleteCart, ascSort, descSort } from '../../store';
 
 function CartPage() {
   let userName = useSelector((state) => {
@@ -14,6 +14,16 @@ function CartPage() {
   let cartData = useSelector((state) => {
     return state.cartData;
   });
+
+  let totalPrice = 0;
+  for(let i=0; i < cartData.length; i++){
+    totalPrice = totalPrice + 
+      (cartData[i].count * cartData[i].price)
+  }
+  
+  console.log('totalPrice' , totalPrice)
+
+  totalPrice = totalPrice.toLocaleString("ko-KR")
 
   console.log(userName);
   console.log(productStock);
@@ -50,8 +60,12 @@ function CartPage() {
             <th>#</th>
             <th>
               상품명
-              <span>▲</span>
-              <span>▼</span>
+              <span onClick={()=>{
+                dispatcher(ascSort())              
+              }}>▲</span>
+              <span onClick={()=>{
+                dispatcher(descSort())              
+              }} >▼</span>
             </th>
             <th>단가</th>
             <th>금액</th>
@@ -65,8 +79,8 @@ function CartPage() {
               <tr key={x.id}>
                 <td>{x.id}</td>
                 <td>{x.title}</td>
-                <td>단가얼마</td>
-                <td>금액얼마</td>
+                <td>{x.price}</td>
+                <td>{x.price * x.count}</td>
                 <td>
                   {x.count} &nbsp;
                   <span onClick={()=>{
@@ -77,13 +91,15 @@ function CartPage() {
                   }}>➖</span>
                 </td>
                 
-                <td>❌</td>
+                <td onClick={()=>{
+                  dispatcher(deleteCart(x.id))
+                }}>❌</td>
               </tr>
             );
           })}
           <tr>
             <td colSpan={4}>총 금액</td>
-            <td colSpan={2}> 1,200,000 원</td>
+            <td colSpan={2}> {totalPrice}원</td>
           </tr>
         </tbody>
       </Table>

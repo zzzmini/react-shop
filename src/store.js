@@ -34,10 +34,24 @@ let productStock = createSlice({
 let cartData = createSlice({
   name : 'cartData',
   initialState : [
-    { id:0, title: 'White and Black', count : 2},
-    { id:2, title: 'Grey Yordan', count : 1},
+    { id:0, title: 'White and Black', price : 120000 ,count : 2},
+    { id:2, title: 'Grey Yordan',price : 140000, count : 1},
   ],
   reducers : {
+    ascSort(state){
+      state.sort((x, y)=>{
+        if(x.title > y.title) return 1;
+        if(x.title < y.title) return -1;
+        return 0;
+      })
+    },
+    descSort(state){
+      state.sort((x, y)=>{
+        if(x.title > y.title) return -1;
+        if(x.title < y.title) return 1;
+        return 0;
+      })
+    },
     // action에 현재 선택한 상품의 ID 가 들어온다고 가정
     minusCount(state, action){
       let index = action.payload;
@@ -48,6 +62,40 @@ let cartData = createSlice({
       let index = action.payload;
       const findId = state.findIndex((x)=> x.id == index);
       state[findId].count++;
+    },
+    // 상품삭제 기능
+    deleteCart(state, action){
+      let deleteId = state.findIndex((x)=>
+        x.id === action.payload
+      )
+      state.splice(deleteId, 1);
+    }
+    ,
+    // 상품추가 기능
+    addCart(state, action){
+      let newCartData = action.payload;
+
+      // 기존에 먼저 존재한 데이터 인지 확인
+      let existID = -1;
+      existID = state.findIndex((x)=>
+        x.id === newCartData.id
+      )
+
+      if(existID >=0 ) {
+        // 장바구니에 자료가 있음.
+        state[existID].count++;
+        
+      } else {
+        // 신규입력
+        let inputData = {
+          id : newCartData.id,
+          title: newCartData.title, 
+          price : newCartData.price,
+          count : 1
+        }
+        state.push(inputData);
+        // this.initialState = [... state, inputData];
+      }
     }
   }
 })
@@ -76,4 +124,11 @@ export default configureStore({
 
 export let { changeUserName } = loggindUser.actions;
 export let { changeGroup, addAge } = imsiData.actions;
-export let { minusCount, plusCount } = cartData.actions;
+export let { 
+  minusCount, 
+  plusCount, 
+  addCart, 
+  deleteCart,
+  ascSort,
+  descSort
+ } = cartData.actions;

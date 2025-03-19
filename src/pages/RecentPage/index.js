@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useEffect, useState } from "react";
 import data from "../../data/shoes-data";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function RecentPage() {
   let [recentView, setRecentView] = useState([]);
@@ -14,7 +14,9 @@ function RecentPage() {
 
   useEffect(() => {
     let recent = JSON.parse(localStorage.getItem("recent"));
-    setRecentView([...recent.sort()]);
+    if(recent){
+      setRecentView([...recent.sort()]);
+    }
   }, []);
 
   console.log("recentView : " + recentView);

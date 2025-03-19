@@ -10,6 +10,9 @@ import AboutPage from "./pages/AboutPage";
 import MainPage from "./pages/MainPage";
 import CartPage from "./pages/CartPage";
 import RecentPage from "./pages/RecentPage";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+// 구글 로그인 상태여부를 파악해 주는 기능
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 function App() {
   // localStorage에 초기설정
@@ -17,13 +20,53 @@ function App() {
   //   localStorage.setItem('recent', JSON.stringify([]));
   // }, [])
 
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+
+  // 구글 로그인 상태 저장 스테이트
+  const [userInfo, setUserInfo] = useState(null);
   const [product, setProduct] = useState(data);
+
   let navigate = useNavigate();
 
-  let outData = localStorage.getItem('data');
-  console.log(JSON.parse(outData))
-  
-  localStorage.setItem('data', JSON.stringify(product))
+  let outData = localStorage.getItem("data");
+  console.log(JSON.parse(outData));
+
+  localStorage.setItem("data", JSON.stringify(product));
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserInfo(user);
+        console.log("=== Login Success : ", userInfo);
+      } else {
+        console.log("=== Logout Success : ", userInfo);
+      }
+    });
+  }, [auth, navigate, userInfo]);
+
+  function firebaseLogin() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log("=====" , result)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function firebaseLogout() {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        setUserInfo(null);
+        navigate("/");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
+  }
 
   return (
     <div className="App">
@@ -47,14 +90,16 @@ function App() {
               {/* <Link to={"/"}>Home</Link> */}
               Recent
             </Nav.Link>
-            <Nav.Link
-              onClick={() => {
-                navigate("/cart");
-              }}
-            >
-              {/* <Link to={"/cart"}>Cart</Link> */}
-              Cart
-            </Nav.Link>
+            {userInfo === null ? null : (
+              <Nav.Link
+                onClick={() => {
+                  navigate("/cart");
+                }}
+              >
+                {/* <Link to={"/cart"}>Cart</Link> */}
+                Cart
+              </Nav.Link>
+            )}
             <Nav.Link
               onClick={() => {
                 navigate("/about");
@@ -65,8 +110,16 @@ function App() {
             </Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">LogIn</Nav.Link>
-            <Nav.Link href="#memes">SignUp</Nav.Link>
+            {userInfo === null ? (
+              <Nav.Link onClick={firebaseLogin}>Login</Nav.Link>
+            ) : (
+              <div className="userInfoArea">
+                <span>{userInfo.displayName}</span>
+                <img src={userInfo.photoURL} 
+                  className="userImage"></img>
+                <Nav.Link onClick={firebaseLogout}>Logout</Nav.Link>
+              </div>
+            )}
           </Nav>
         </Container>
       </Navbar>
@@ -89,7 +142,7 @@ function App() {
           }
         />
         <Route path="/main" element={<MainPage product={product} />}>
-          <Route path=":id" element={<DetailPage product={product} />}/>
+          <Route path=":id" element={<DetailPage product={product} />} />
         </Route>
         <Route
           path="/recent"
